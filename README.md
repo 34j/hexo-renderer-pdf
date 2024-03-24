@@ -18,33 +18,10 @@ npm install hexo-renderer-pdf
 
 ## Usage
 
-```ts
-import { myPackage } from 'hexo-renderer-pdf';
-
-myPackage('hello');
-//=> 'hello from my package'
+```yaml
+render_pdf:
+  args: []
 ```
-
-## API
-
-### myPackage(input, options?)
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-Type: `object`
-
-##### postfix
-
-Type: `string`
-Default: `rainbows`
-
-Lorem ipsum.
 
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml
