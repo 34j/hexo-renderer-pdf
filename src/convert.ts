@@ -4,6 +4,15 @@ import fs from 'fs';
 
 const logger = createLogger();
 
+function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export function convertPdfToHtml(
   inPath: string,
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
@@ -29,7 +38,7 @@ export function convertPdfToHtml(
     args = ['wsl', '-e'].concat(args);
   }
 
-  logger.warn(`Running: ${args.join(' ')}`);
+  logger.info(`Running: ${args.join(' ')}`);
 
   // Run pdf2htmlEX
   const res = spawnSync(args[0], args.slice(1), { encoding: 'utf8' });
@@ -48,5 +57,10 @@ export function convertPdfToHtml(
   const convertedHtml = fs.readFileSync(outPath, 'utf8');
 
   // Return the processed HTML
-  return convertedHtml;
+  // return convertedHtml;
+  return (
+    "<html><head><style>body{margin:0;overflow:hidden;}</style></head><body><iframe srcdoc='" +
+    escapeHtml(convertedHtml + '') +
+    "' style='width:100%;height:100%;border:none;'></iframe></body></html>"
+  );
 }
