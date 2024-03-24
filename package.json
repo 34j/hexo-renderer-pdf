@@ -1,5 +1,5 @@
 {
-  "name": "typescript-npm-package-template",
+  "name": "hexo-renderer-pdf",
   "version": "0.0.0-development",
   "description": "A template for creating npm packages using TypeScript and VSCode",
   "main": "./lib/index.js",
@@ -19,11 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ryansonshine/typescript-npm-package-template.git"
+    "url": "git+https://github.com/ryansonshine/hexo-renderer-pdf.git"
   },
   "license": "MIT",
   "author": {
-    "name": "Ryan Sonshine",
+    "name": "34j",
     "email": "ryansonshine@users.noreply.github.com",
     "url": "https://github.com/ryansonshine"
   },
@@ -42,9 +42,9 @@
     "codecov"
   ],
   "bugs": {
-    "url": "https://github.com/ryansonshine/typescript-npm-package-template/issues"
+    "url": "https://github.com/ryansonshine/hexo-renderer-pdf/issues"
   },
-  "homepage": "https://github.com/ryansonshine/typescript-npm-package-template#readme",
+  "homepage": "https://github.com/ryansonshine/hexo-renderer-pdf#readme",
   "devDependencies": {
     "@ryansonshine/commitizen": "^4.2.8",
     "@ryansonshine/cz-conventional-changelog": "^3.3.4",
