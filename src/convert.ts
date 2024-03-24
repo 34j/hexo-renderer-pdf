@@ -75,6 +75,9 @@ export async function convertPdfToHtml(
   // Read converted HTML file
   const convertedHtml = await fs.readFile(outPath, 'utf8');
 
+  // Remove the temporary file
+  await fs.unlink(outPath);
+
   // Read metadata
   let title = '';
   let description = '';

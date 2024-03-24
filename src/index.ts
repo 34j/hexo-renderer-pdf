@@ -49,7 +49,8 @@ export async function pdfRenderer(
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   logger.info(`Rendering PDF: ${data.path}`);
 
-  const outPath = 'temp.html';
+  // random outPath
+  const outPath = `temp-${Math.random().toString(36).substring(7)}.html`;
   return await convertPdfToHtml(
     data.path,
     outPath,
