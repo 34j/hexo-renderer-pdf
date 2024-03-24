@@ -2,7 +2,7 @@ import createLogger from 'hexo-log';
 import { promises as fs } from 'fs';
 import util from 'util';
 import { PDFDocument } from 'pdf-lib';
-import { spawnSync } from 'child_process';
+import spawnAsync from '@expo/spawn-async';
 
 const logger = createLogger();
 
@@ -45,9 +45,11 @@ export async function convertPdfToHtml(
   let passInPath = inPath;
   if (useWsl) {
     // wsl path
-    passInPath = spawnSync('wsl', ['-e', 'wslpath', inPath], {
-      encoding: 'utf8',
-    }).stdout.trim();
+    passInPath = (
+      await spawnAsync('wsl', ['-e', 'wslpath', inPath], {
+        encoding: 'utf8',
+      })
+    ).stdout;
   }
 
   // Prepare arguments
@@ -60,11 +62,11 @@ export async function convertPdfToHtml(
   logger.info(`Running: ${args.join(' ')}`);
 
   // Run pdf2htmlEX
-  const res = spawnSync(args[0], args.slice(1), { encoding: 'utf8' });
-  if (res.error) {
+  const res = await spawnAsync(args[0], args.slice(1), { encoding: 'utf8' });
+  if (res.status !== 0) {
     // Log the error
-    logger.error(res.error);
-    throw Error(res.error.message);
+    logger.error(res.stderr);
+    throw new Error(res.stderr);
   } else {
     // Log the stderr output
     if (res.stderr) {
