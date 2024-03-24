@@ -118,5 +118,9 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
+  },
+  "dependencies": {
+    "hexo": "^7.1.1",
+    "hexo-log": "^4.1.0"
   }
 }
