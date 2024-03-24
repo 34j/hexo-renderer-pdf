@@ -3,7 +3,6 @@ import { StoreFunctionData } from 'hexo/dist/extend/renderer';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type Hexo from 'hexo';
 import { convertPdfToHtml } from './convert';
-import { NodeJSLikeCallback } from 'hexo/dist/types';
 
 const logger = createLogger();
 
@@ -40,7 +39,7 @@ export async function pdfRenderer(
   data: StoreFunctionData,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
   options: object
-): Promise<any> {
+): Promise<string | void> {
   if (!data.path) {
     logger.error('No path provided for rendering PDF');
     throw Error('No path provided for rendering PDF');
@@ -51,13 +50,17 @@ export async function pdfRenderer(
 
   // random outPath
   const outPath = `temp-${Math.random().toString(36).substring(7)}.html`;
-  return await convertPdfToHtml(
-    data.path,
-    outPath,
-    config.args,
-    config.wrapWithIframe,
-    config.wrapHtml
-  );
+  try {
+    return await convertPdfToHtml(
+      data.path,
+      outPath,
+      config.args,
+      config.wrapWithIframe,
+      config.wrapHtml
+    );
+  } catch (error) {
+    logger.error(error);
+  }
 }
 
 // Disable Nunjucks rendering
