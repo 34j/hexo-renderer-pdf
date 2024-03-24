@@ -20,7 +20,8 @@ npm install hexo-renderer-pdf
 
 ```yaml
 render_pdf:
-  args: []
+  args: [] # pdf2htmlEX additional arguments
+  wrapWithIframe: true # Whether to wrap the pdf with an iframe
 ```
 
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg

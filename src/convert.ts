@@ -17,7 +17,8 @@ export function convertPdfToHtml(
   inPath: string,
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   outPath: string = 'temp.html',
-  args: string[] = []
+  args: string[] = [],
+  wrapWithIframe = true
 ): string | void {
   // Run pdf2htmlEX
   const useWsl = process.platform === 'win32';
@@ -57,10 +58,12 @@ export function convertPdfToHtml(
   const convertedHtml = fs.readFileSync(outPath, 'utf8');
 
   // Return the processed HTML
-  // return convertedHtml;
+  if (!wrapWithIframe) {
+    return convertedHtml;
+  }
   return (
     "<html><head><style>body{margin:0;overflow:hidden;}</style></head><body><iframe srcdoc='" +
     escapeHtml(convertedHtml + '') +
-    "' style='width:100%;height:100%;border:none;'></iframe></body></html>"
+    "' style='display:block; border:none; height:100vh; width:100%;'></iframe></body></html>"
   );
 }

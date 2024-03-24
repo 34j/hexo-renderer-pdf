@@ -8,11 +8,13 @@ const logger = createLogger();
 
 interface Config {
   args: string[];
+  wrapWithIframe: boolean;
 }
 
 const config: Config = Object.assign(
   {
     args: [],
+    wrapWithIframe: true,
   },
   hexo.config.render_pdf
 );
@@ -28,7 +30,12 @@ export function pdfRenderer(data: StoreFunctionData, options: object): any {
   logger.info(`Rendering PDF: ${data.path}`);
 
   const outPath = 'temp.html';
-  return convertPdfToHtml(data.path, outPath, config.args);
+  return convertPdfToHtml(
+    data.path,
+    outPath,
+    config.args,
+    config.wrapWithIframe
+  );
 }
 
 // Disable Nunjucks rendering
