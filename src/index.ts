@@ -39,9 +39,7 @@ const config: Config = Object.assign(
 export async function pdfRenderer(
   data: StoreFunctionData,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
-  options: object,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  callback?: NodeJSLikeCallback<any>
+  options: object
 ): Promise<any> {
   if (!data.path) {
     logger.error('No path provided for rendering PDF');
