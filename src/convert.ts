@@ -42,16 +42,17 @@ export async function convertPdfToHtml(
 
   logger.info(`Using ${useWsl ? 'WSL' : 'native'} pdf2htmlEX`);
 
+  let passInPath = inPath;
   if (useWsl) {
     // wsl path
-    inPath = spawnSync('wsl', ['-e', 'wslpath', inPath], {
+    passInPath = spawnSync('wsl', ['-e', 'wslpath', inPath], {
       encoding: 'utf8',
     }).stdout.trim();
   }
 
   // Prepare arguments
   args = ['pdf2htmlEX'].concat(args);
-  args = args.concat([inPath, outPath]);
+  args = args.concat([passInPath, outPath]);
   if (useWsl) {
     args = ['wsl', '-e'].concat(args);
   }
