@@ -48,6 +48,7 @@ export async function convertPdfToHtml(
     // wsl path
     passInPath = (
       await spawnAsync('wsl', ['-e', 'wslpath', inPath], {
+        // @ts-ignore
         encoding: 'utf8',
       })
     ).stdout.trim();
@@ -64,11 +65,13 @@ export async function convertPdfToHtml(
 
   // Run pdf2htmlEX
   try {
+    // @ts-ignore
     const res = await spawnAsync(args[0], args.slice(1), { encoding: 'utf8' });
     if (res.stderr) {
       logger.warn(res.stderr);
     }
   } catch (e) {
+    // @ts-ignore
     logger.error(e.stdout);
     throw e;
   }
