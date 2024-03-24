@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 import util from 'util';
 import { PDFDocument } from 'pdf-lib';
 import spawnAsync from '@expo/spawn-async';
+import { spawnSync } from 'child_process';
 
 const logger = createLogger();
 
@@ -49,7 +50,7 @@ export async function convertPdfToHtml(
       await spawnAsync('wsl', ['-e', 'wslpath', inPath], {
         encoding: 'utf8',
       })
-    ).stdout;
+    ).stdout.trim();
   }
 
   // Prepare arguments
@@ -62,16 +63,14 @@ export async function convertPdfToHtml(
   logger.info(`Running: ${args.join(' ')}`);
 
   // Run pdf2htmlEX
-  const res = await spawnAsync(args[0], args.slice(1), { encoding: 'utf8' });
-  if (res.status !== 0) {
-    // Log the error
-    logger.error(res.stderr);
-    throw new Error(res.stderr);
-  } else {
-    // Log the stderr output
+  try {
+    const res = await spawnAsync(args[0], args.slice(1), { encoding: 'utf8' });
     if (res.stderr) {
       logger.warn(res.stderr);
     }
+  } catch (e) {
+    logger.error(e.stdout);
+    throw e;
   }
 
   // Read converted HTML file
