@@ -1,6 +1,8 @@
-import { spawnSync } from 'child_process';
 import createLogger from 'hexo-log';
-import fs from 'fs';
+import { promises as fs } from 'fs';
+import util from 'util';
+import { PDFDocument } from 'pdf-lib';
+import { spawnSync } from 'child_process';
 
 const logger = createLogger();
 
@@ -13,13 +15,28 @@ function escapeHtml(unsafe: string): string {
     .replace(/'/g, '&#039;');
 }
 
-export function convertPdfToHtml(
+export async function convertPdfToHtml(
   inPath: string,
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   outPath: string = 'temp.html',
-  args: string[] = [],
-  wrapWithIframe = true
-): string | void {
+  args: string[] = ['--process-outline', '0'],
+  wrapWithIframe = true,
+  wrapHtml = `<html>
+  <head>
+      <style>body{margin:0;overflow:hidden;}</style>
+      <style>::-webkit-scrollbar{display:none;}</style>
+      <title>%s</title>
+      <meta charset='utf-8'>
+      <meta name="description" content="%s">
+      <meta name="keywords" content="%s">
+      <meta name="author" content="%s">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+      <iframe scrolling="no" style='overflow:hidden; display:block; border:none; height:100vh; width:100%;' srcdoc='%s'></iframe>
+  </body>
+</html>`
+): Promise<string> {
   // Run pdf2htmlEX
   const useWsl = process.platform === 'win32';
 
@@ -55,15 +72,35 @@ export function convertPdfToHtml(
   }
 
   // Read converted HTML file
-  const convertedHtml = fs.readFileSync(outPath, 'utf8');
+  const convertedHtml = await fs.readFile(outPath, 'utf8');
+
+  // Read metadata
+  let title = '';
+  let description = '';
+  let author = '';
+  let keywords = '';
+  try {
+    const arrayBuffer = await fs.readFile(inPath);
+    const pdf = await PDFDocument.load(arrayBuffer);
+    title = pdf.getTitle() || '';
+    description = pdf.getSubject() || '';
+    author = pdf.getAuthor() || '';
+    keywords = pdf.getKeywords() || '';
+  } catch (e) {
+    logger.warn('Failed to read PDF metadata.');
+    logger.warn(e);
+  }
 
   // Return the processed HTML
   if (!wrapWithIframe) {
     return convertedHtml;
   }
-  return (
-    "<html><head><style>body{margin:0;overflow:hidden;}</style></head><body><iframe srcdoc='" +
-    escapeHtml(convertedHtml + '') +
-    "' style='display:block; border:none; height:100vh; width:100%;'></iframe></body></html>"
+  return util.format(
+    wrapHtml,
+    title,
+    description,
+    keywords,
+    author,
+    escapeHtml(convertedHtml)
   );
 }

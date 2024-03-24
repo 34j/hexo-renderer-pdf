@@ -3,24 +3,46 @@ import { StoreFunctionData } from 'hexo/dist/extend/renderer';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type Hexo from 'hexo';
 import { convertPdfToHtml } from './convert';
+import { NodeJSLikeCallback } from 'hexo/dist/types';
 
 const logger = createLogger();
 
 interface Config {
   args: string[];
   wrapWithIframe: boolean;
+  wrapHtml: string;
 }
 
 const config: Config = Object.assign(
   {
-    args: [],
+    args: ['--process-outline', '0'],
     wrapWithIframe: true,
+    wrapHtml: `<html>
+    <head>
+        <style>body{margin:0;overflow:hidden;}</style>
+        <style>::-webkit-scrollbar{display:none;}</style>
+        <title>%s</title>
+        <meta charset='utf-8'>
+        <meta name="description" content="%s">
+        <meta name="keywords" content="%s">
+        <meta name="author" content="%s">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <iframe scrolling="no" style='overflow:hidden; display:block; border:none; height:100vh; width:100%;' srcdoc='%s'></iframe>
+    </body>
+  </html>`,
   },
   hexo.config.render_pdf
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
-export function pdfRenderer(data: StoreFunctionData, options: object): any {
+export async function pdfRenderer(
+  data: StoreFunctionData,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
+  options: object,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  callback?: NodeJSLikeCallback<any>
+): Promise<any> {
   if (!data.path) {
     logger.error('No path provided for rendering PDF');
     throw Error('No path provided for rendering PDF');
@@ -30,11 +52,12 @@ export function pdfRenderer(data: StoreFunctionData, options: object): any {
   logger.info(`Rendering PDF: ${data.path}`);
 
   const outPath = 'temp.html';
-  return convertPdfToHtml(
+  return await convertPdfToHtml(
     data.path,
     outPath,
     config.args,
-    config.wrapWithIframe
+    config.wrapWithIframe,
+    config.wrapHtml
   );
 }
 
@@ -42,4 +65,5 @@ export function pdfRenderer(data: StoreFunctionData, options: object): any {
 pdfRenderer.disableNunjucks = true;
 
 // Register the renderer
-hexo.extend.renderer.register('pdf', 'html', pdfRenderer, true);
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+hexo.extend.renderer.register('pdf', 'html', pdfRenderer);
