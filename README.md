@@ -13,6 +13,8 @@
 ## Install
 
 ```bash
+wget -N https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb -O pdf2htmlEX.deb
+sudo apt install ./pdf2htmlEX.deb
 npm install hexo-renderer-pdf
 ```
 
@@ -20,8 +22,24 @@ npm install hexo-renderer-pdf
 
 ```yaml
 render_pdf:
-  args: [] # pdf2htmlEX additional arguments
+  args: ['--process-outline', '0'] # pdf2htmlEX additional arguments
   wrapWithIframe: true # Whether to wrap the pdf with an iframe
+  wrapHtml: |
+    <html>
+      <head>
+          <style>body{margin:0;overflow:hidden;}</style>
+          <style>::-webkit-scrollbar{display:none;}</style>
+          <title>%s</title>
+          <meta charset='utf-8'>
+          <meta name="description" content="%s">
+          <meta name="keywords" content="%s">
+          <meta name="author" content="%s">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body>
+          <iframe scrolling="no" style='overflow:hidden; display:block; border:none; height:100vh; width:100%;' srcdoc='%s'></iframe>
+      </body>
+    </html>
 ```
 
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
