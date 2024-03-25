@@ -79,8 +79,9 @@ render_pdf:
 
 ## Limitations
 
-Somehow, if I did not use a specific font (Cambria Math) for the math font, `Cannot flatten a non-CID font` warning occurred and the characters were garbled.
-`Warning: encoding confliction detected in font: 3` is still displayed but it seems to be harmless.
+- Somehow, Using a non-specific fonts for math expressions results in `Cannot flatten a non-CID font` warning and the characters garbled. Using Cambria Math was a workaround.
+- `Warning: encoding confliction detected in font: 3` is still displayed but it seems to be harmless.
+- Due to Hexo's specifications, specifing a title for a post which is a binary file is almost impossible and the title will be blank.
 
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml
