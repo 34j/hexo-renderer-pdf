@@ -93,7 +93,7 @@ img {
 
 - Somehow, using a non-specific fonts for math expressions results in `Cannot flatten a non-CID font` warning and the characters garbled. Using Cambria Math was a workaround.
 - `Warning: encoding confliction detected in font: 3` is still displayed but it seems to be harmless.
-- Due to Hexo's specifications, specifing a title for a post which is a binary file is almost impossible and the title will be blank.
+- You can open a PDF document in a text editor and write [Front-matter](https://hexo.io/docs/front-matter.html) in the same way as you would in markdown. It would be possible to generate this automatically from the PDF metadata, but this feature is not implemented.
 
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml
