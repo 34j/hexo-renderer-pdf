@@ -77,6 +77,11 @@ render_pdf:
 }
 ```
 
+## Limitations
+
+Somehow, if I did not use a specific font (Cambria Math) for the math font, `Cannot flatten a non-CID font` warning occurred and the characters were garbled.
+`Warning: encoding confliction detected in font: 3` is still displayed but it seems to be harmless.
+
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml
 [downloads-img]:https://img.shields.io/npm/dt/hexo-renderer-pdf

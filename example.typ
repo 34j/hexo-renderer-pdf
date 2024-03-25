@@ -1,7 +1,7 @@
 // Title should be set (Modified here)
 #set document(title: "Fibonacci sequence (title)", author: ("Author1", "Author2"), date: datetime.today(), keywords: ("Fibonacci", "Math"))
 // Math font must be set (Modified here)
-#show math.equation: set text(font: "New Computer Modern Math")
+#show math.equation: set text(font: "Cambria Math")
 
 #set page(width: 10cm, height: auto)
 #set heading(numbering: "1.")
@@ -28,3 +28,5 @@ columns: count,
 ..nums.map(n => $F_#n$),
 ..nums.map(n => str(fib(n))),
 ))
+
+#emoji.face.grin
