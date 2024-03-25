@@ -8,21 +8,25 @@
 [![Commitizen Friendly][commitizen-img]][commitizen-url]
 [![Semantic Release][semantic-release-img]][semantic-release-url]
 
-> My awesome module
+> Hexo renderer based on pdf2htmlEX.
 
 ## Install
+
+Note that WSL can be used (for Windows users).
 
 ```bash
 wget -N https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb -O pdf2htmlEX.deb
 sudo apt install ./pdf2htmlEX.deb
-npm install hexo-renderer-pdf
+npm install hexo-renderer-pdf --save
 ```
 
-## Usage
+Just place pdf files in `source/_posts` (and run `hexo s`).
+
+## Configuration (Optional)
 
 ```yaml
 render_pdf:
-  args: ['--process-outline', '0'] # pdf2htmlEX additional arguments
+  args: ['--process-outline', '0', '--zoom', '1.25'] # pdf2htmlEX additional arguments
   wrapWithIframe: true # Whether to wrap the pdf with an iframe
   wrapHtml: |
     <html>
@@ -42,7 +46,7 @@ render_pdf:
     </html>
 ```
 
-## Customizing CSS
+## Customizing CSS (Optional)
 
 - Copy the assets to the root of your hexo project
 
@@ -57,7 +61,8 @@ git commit -m "chore: copy pdf2htmlEX assets"
 - Specify data-dir in the pdf2htmlEX options
 
 ```yaml
-args: ['--data-dir', 'pdf2htmlEX']
+render_pdf:
+  args: ['--data-dir', 'pdf2htmlEX']
 ```
 
 - Edit `fancy.min.css` as you like
