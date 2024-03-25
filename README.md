@@ -42,6 +42,36 @@ render_pdf:
     </html>
 ```
 
+## Customizing CSS
+
+- Copy the assets to the root of your hexo project
+
+```shell
+cp -r $(wsl -e wslpath -m /usr/local/share/pdf2htmlEX) .       
+rm -r pdf2htmlEX/poppler 
+rm -r pdf2htmlEX/pkgconfig
+git add pdf2htmlEX
+git commit -m "chore: copy pdf2htmlEX assets"
+```
+
+- Specify data-dir in the pdf2htmlEX options
+
+```yaml
+args: ['--data-dir', 'pdf2htmlEX']
+```
+
+- Edit `fancy.min.css` as you like
+
+```css
+#page-container {
+  background-color: white !important;
+  background-image: none !important;
+}
+.pf{
+  box-shadow: none !important;
+}
+```
+
 [build-img]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/34j/hexo-renderer-pdf/actions/workflows/release.yml
 [downloads-img]:https://img.shields.io/npm/dt/hexo-renderer-pdf
