@@ -10,7 +10,7 @@
 
 > Hexo renderer based on pdf2htmlEX.
 
-## Install
+## Installation
 
 Note that WSL can be used (for Windows users).
 
@@ -79,7 +79,7 @@ render_pdf:
 
 ## Limitations
 
-- Somehow, Using a non-specific fonts for math expressions results in `Cannot flatten a non-CID font` warning and the characters garbled. Using Cambria Math was a workaround.
+- Somehow, using a non-specific fonts for math expressions results in `Cannot flatten a non-CID font` warning and the characters garbled. Using Cambria Math was a workaround.
 - `Warning: encoding confliction detected in font: 3` is still displayed but it seems to be harmless.
 - Due to Hexo's specifications, specifing a title for a post which is a binary file is almost impossible and the title will be blank.
 
