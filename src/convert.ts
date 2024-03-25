@@ -72,7 +72,8 @@ export async function convertPdfToHtml(
     }
   } catch (e) {
     // @ts-ignore
-    logger.error(e.stdout);
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    logger.error(`${e.stdout}${e.stderr}`);
     throw e;
   }
 
