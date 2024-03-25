@@ -69,11 +69,23 @@ render_pdf:
 
 ```css
 #page-container {
-  background-color: white !important;
-  background-image: none !important;
+  background-color: transparent;
+  background-image: none;
+}
+#sidebar{
+  background-color: transparent;
 }
 .pf{
-  box-shadow: none !important;
+  box-shadow: none;
+}
+img {
+  mix-blend-mode: multiply;
+}
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: invert(1);
+    mix-blend-mode: lighten;
+  }
 }
 ```
 
